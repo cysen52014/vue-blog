@@ -5,7 +5,7 @@ if (process.__API__) {
     api = process.__API__
 } else {
     api = process.__API__ = {
-        api: 'http://localhost:8080/api/',
+        api: 'https://v-cysen-blog.herokuapp.com/api/',
         port: 8080,
         timeout: 30000,
         cached: LRU({

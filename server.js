@@ -10,7 +10,7 @@ const serialize = require('serialize-javascript')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-const config = require('./src/api/config-server')
+//const config = require('./src/api/config-server')
 const resolve = file => path.resolve(__dirname, file)
 
 // 引入 mongoose 相关模型
@@ -41,10 +41,10 @@ function parseIndex(template) {
 const app = express()
 
 // 由 html-webpack-plugin 生成
-let indexHTML
-let adminHTML
+var indexHTML
+var adminHTML
 // 创建来自 webpack 生成的服务端包
-let renderer
+var renderer
 if (isProd) {
     // 生产模式: 从 fs 创建服务器 HTML 渲染器和索引
     renderer = createRenderer(fs.readFileSync(resolve('./dist/server/server-bundle.js'), 'utf-8'))
@@ -101,7 +101,9 @@ app.get(['/', '/category/:id', '/search/:qs', '/article/:id', '/about', '/trendi
     }
     const renderStream = renderer.renderToStream(context)
     renderStream.once('data', () => {
-        const { title, meta } = context.meta.inject()
+        //const { title, meta } = context.meta.inject()
+        const title = context.meta.inject().title
+        const meta = context.meta.inject().meta
         res.write(indexHTML[0] + title.text() + meta.text() + indexHTML[1])
     })
     renderStream.on('data', chunk => {
@@ -152,7 +154,8 @@ app.use(function(err, req, res) {
     res.send(err.message)
 })
 
-const port = process.env.PORT || config.port || 8080
+
+const port = process.env.PORT || 8080
 app.listen(port, err => {
     if (err) {
         console.log(err)
