@@ -4,6 +4,6 @@ npm-debug.log
 .vscode/
 .idea/
 admin.lock
-src
-build
-static
+src/
+build/
+static/
